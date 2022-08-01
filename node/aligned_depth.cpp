@@ -44,7 +44,7 @@ void DepthImageCallback(const sensor_msgs::ImageConstPtr &msg)
 
 int main(int argc, char **argv)
 {
-    // 相机内参，可从/camera/color/camera_info话题中获取
+    // 相机内参，可从/camera/depth/camera_info话题中获取
     double camera_factor = 1000;
     double cx = 601.53;
     double cy = 370.16;

@@ -83,12 +83,37 @@ int main(int argc, char **argv)
     image_transport::Subscriber depth_sub = it.subscribe("camera/depth/image_rect_raw", 1, DepthImageCallback);
     image_transport::Subscriber rendered_depth_sub = it.subscribe("camera/depth/rendered_depth", 1, RenderedDepthCallback);
 
+    //////////////////////////录像设置部分//////////////////////////////////
+    cv::VideoWriter record;
+    std::string record_path = ros::package::getPath("hikrobot_ros") + "/video";
+    char VideoName[50];
+    struct tm p;
+    time_t time_;
+    time(&time_);
+    p = *(gmtime(&time_));
+    sprintf(VideoName, "%d-%d-%d--%d-%d.avi", p.tm_year + 1900, p.tm_mon + 1, p.tm_mday, p.tm_hour + 8, p.tm_min);
+    record_path = record_path + "/" + VideoName;
+    int temp_width = 0, temp_height = 0;
+    nh.getParam("image_width", temp_width);
+    nh.getParam("image_height", temp_height);
+    std::cout << temp_width << " " << temp_height << std::endl;
+    std::cout << "record = " << record_path << std::endl;
+    record.open(record_path.c_str(), cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 30, cv::Size(temp_width, temp_height));
+    //FIXME: 相机运行需要root权限，在root权限下opencv录的视频是带锁的，建议新开终端运行此节点
+    //////////////////////////////////////////////////////////////////////
+
     cvui::init(WINDOW_NAME);
 
     while (ros::ok())
     {
         cv::Mat show_color_image;
         cv::Mat show_render_depth;
+        // 录像，可以将color_image替换成其他想要录制的frame
+        if (enable_record)
+        {
+            record << color_image;
+        }
+
         if (!color_image.empty())
         {
             show_color_image = color_image.clone();
@@ -212,7 +237,18 @@ int main(int argc, char **argv)
         cv::imshow(WINDOW_NAME, back_ground);
         cv::waitKey(1);
         ////////////////////////// 按钮部分/////////////////////////////
-    
+        if (cvui::button(back_ground, 60, 800, "&Record"))
+        {
+            enable_record = !enable_record;
+            if (enable_record)
+            {
+                std::cout << "start recording!" << std::endl;
+            }
+            else
+            {
+                std::cout << "end recording!" << std::endl;
+            }
+        }
         if (cvui::button(back_ground, 60, 900, "&EXIT"))
         {
             break;

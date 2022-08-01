@@ -8,7 +8,7 @@
 ```sh
 mkdir -p ~/ros_ws/src               
 cd ~/ros_ws/src                      
-git clone https://github.com/AprilRobotics/apriltag.git 
+git clone https://github.com/Nick-the-remaker/Hikrobot_ros.git 
 cd ~/ros_ws
 catkin_make
 sudo su
@@ -26,6 +26,7 @@ source devel/setup.bash
 
 ## 使用说明
 本例提供四个示例程序
+
 **1. 基本信息发布**。包含彩色图，深度图，相机信息，左右红外相机图，点云发布。
 ```sh
 cd ros_ws
@@ -86,7 +87,7 @@ MV-EB435i 'Xiling' is a low-cost, small volume, fully configured stereo camera. 
 ```sh
 mkdir -p ~/ros_ws/src               
 cd ~/ros_ws/src                      
-git clone https://github.com/AprilRobotics/apriltag.git 
+git clone https://github.com/Nick-the-remaker/Hikrobot_ros.git 
 cd ~/ros_ws
 catkin_make
 sudo su
@@ -105,6 +106,7 @@ e.g. sudo apt-get install ros-melodic-pcl-conversions
 
 ## Usage
 These are four examples for using MV-EB435i.
+
 **1. publish basic topics**, including color image, depth image, infra image, and point cloud.
 
 ```sh
