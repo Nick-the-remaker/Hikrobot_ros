@@ -1,0 +1,29 @@
+<launch>
+    <arg name = "image_width" default = "1280"/>
+    <arg name = "image_height" default = "720"/>
+    <arg name = "exposure" default = "1500"/>
+    <arg name = "gain" default = "10"/>
+    <arg name = "enable_laser" default = "true"/>
+    <arg name = "enable_color" default = "true"/>
+    <arg name = "enable_depth" default = "true"/>
+    <arg name = "enable_infra" default = "false"/>
+    <arg name = "enable_pointcloud" default = "false"/>
+    <arg name ="color_info" default = "file://$(find hikrobot_ros)/node/common/yaml/color_info.yaml"/>
+    <arg name ="depth_info" default = "file://$(find hikrobot_ros)/node/common/yaml/depth_info.yaml"/>
+    
+    <param name = "image_width" value = "$(arg image_width)"/>
+    <param name = "image_height" value = "$(arg image_height)"/>
+    <param name = "exposure" value = "$(arg exposure)"/>
+    <param name = "gain" value = "$(arg gain)"/>
+    <param name = "enable_laser" value = "$(arg enable_laser)"/>
+    <param name = "enable_color" value = "$(arg enable_color)"/>
+    <param name = "enable_depth" value = "$(arg enable_depth)"/>
+    <param name = "enable_infra" value = "$(arg enable_infra)"/>
+    <param name = "enable_pointcloud" value = "$(arg enable_pointcloud)"/>
+    <param name = "color_info" value = "$(arg color_info)"/>
+    <param name = "depth_info" value = "$(arg depth_info)"/>
+
+    <node pkg = "hikrobot_ros" type = "aligned_depth" name = "aligned_depth_pointcloud" output = "screen"/>
+    <node pkg = "hikrobot_ros" type = "Mv3dRgbd_node" name = "base_publish" output = "screen"/>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find hikrobot_ros)/rviz/aligned_depth.rviz" required="true" />
+</launch>
